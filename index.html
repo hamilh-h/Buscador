@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mi inicio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: rápido, personal, con vida — el tablero con el que arrancás el día
+   IDEA: una consola de teclas iluminadas que flotan sobre luz de colores
+   PICTURE: la grilla de teclas con brillo propio sobre un fondo liso con trama de puntos
+   COLOUR and TYPE: grafito profundo, cada tecla con su color y reflejo; Space Grotesk
+   LAYOUT: reloj grande + buscador en franja de vidrio, grilla de teclas debajo */
+:root{color-scheme:light dark;--bg:light-dark(#e9ecf1,#0d0f13);--glass:light-dark(rgba(255,255,255,.62),rgba(24,27,33,.55));--panel:light-dark(#ffffff,#1a1d23);--ink:light-dark(#11141a,#f2f4f7);--mut:light-dark(#566070,#9aa4b1);--line:light-dark(rgba(17,20,26,.12),rgba(255,255,255,.09));--acc:#ff5a36;--dot:light-dark(rgba(17,20,26,.14),rgba(255,255,255,.09))}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Space Grotesk",system-ui,sans-serif;overflow-x:clip}
+.fondo{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(var(--dot) 1px,transparent 1.2px);background-size:22px 22px;-webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 30%,#000 30%,transparent 80%)}
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:clamp(18px,4vw,48px) max(4vw,16px)}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 32px;padding:clamp(18px,3vw,28px);margin-bottom:26px;border-radius:26px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);box-shadow:0 20px 50px -30px rgba(0,0,0,.6);animation:baja .7s cubic-bezier(.2,.8,.2,1) both}
+@keyframes baja{from{opacity:0;transform:translateY(-14px)}}
+.saludo{font-size:20px;font-weight:500;color:var(--mut)}
+.hora{display:flex;align-items:baseline;font-size:clamp(54px,10vw,96px);font-weight:700;line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums;margin:4px 0 6px}
+.hora .dp{animation:late 2s steps(1) infinite;margin:0 .02em}
+@keyframes late{50%{opacity:.25}}
+.dig{display:inline-block;overflow:hidden;height:1em;line-height:1}
+.dig span{display:block;animation:sube .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes sube{from{transform:translateY(100%);opacity:0}}
+.fecha{font-size:17px;color:var(--mut)}
+form.busca{flex:1 1 320px;max-width:470px;position:relative}
+form.busca input{width:100%;font:inherit;font-size:17px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:15px 120px 15px 48px;min-height:54px;transition:box-shadow .25s,border-color .25s}
+form.busca input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 5px color-mix(in srgb,var(--acc) 22%,transparent)}
+form.busca svg{position:absolute;left:16px;top:50%;width:20px;height:20px;transform:translateY(-50%);color:var(--mut)}
+form.busca button{position:absolute;right:6px;top:6px;bottom:6px}
+button{font:inherit;font-size:15px;min-height:44px;padding:0 18px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;transition:transform .15s,background .2s}
+button:hover{transform:translateY(-1px)}button:active{transform:translateY(1px)}
+button.pri{background:var(--acc);border-color:transparent;color:#fff;font-weight:500}
+:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,160px),1fr));gap:16px}
+.celda{position:relative;perspective:700px;animation:entra .6s cubic-bezier(.2,.9,.25,1.2) both;animation-delay:calc(var(--i)*60ms + .15s)}
+@keyframes entra{from{opacity:0;transform:translateY(24px) scale(.9)}}
+.tecla{--rx:0deg;--ry:0deg;position:relative;display:flex;flex-direction:column;justify-content:space-between;aspect-ratio:1/1;padding:18px;border-radius:24px;text-decoration:none;color:#fff;overflow:hidden;isolation:isolate;background:linear-gradient(150deg,color-mix(in srgb,var(--c) 85%,#fff) 0%,var(--c) 45%,color-mix(in srgb,var(--c) 70%,#000) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -5px 0 rgba(0,0,0,.2),0 14px 30px -14px color-mix(in srgb,var(--c) 80%,#000);transform:rotateX(var(--rx)) rotateY(var(--ry));transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+.tecla::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(180px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.35),transparent 60%);opacity:0;transition:opacity .3s}
+.tecla:hover{transform:translateY(-6px) rotateX(var(--rx)) rotateY(var(--ry));box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -5px 0 rgba(0,0,0,.2),0 26px 40px -16px color-mix(in srgb,var(--c) 90%,#000)}
+.tecla:hover::before{opacity:1}
+.tecla:active{transform:translateY(1px) scale(.97);transition-duration:.08s}
+.ini{display:grid;place-items:center;width:58px;height:58px;border-radius:18px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);font-size:26px;font-weight:700;letter-spacing:-.03em;transition:transform .35s cubic-bezier(.2,.9,.3,1.4)}
+.tecla:hover .ini{transform:scale(1.08) rotate(-4deg)}
+.nom{font-size:18px;font-weight:700;line-height:1.15}
+.nom small{display:block;margin-top:3px;font-size:13px;font-weight:400;opacity:.85}
+.num{position:absolute;top:14px;right:16px;font-size:13px;font-weight:500;opacity:.7;font-variant-numeric:tabular-nums}
+.web{position:absolute;right:12px;bottom:14px;z-index:2;font-size:13px;color:#fff;background:rgba(0,0,0,.3);padding:6px 12px;border-radius:999px;text-decoration:none;min-height:32px;display:flex;align-items:center;backdrop-filter:blur(6px);transition:background .2s,transform .2s}
+.web:hover{background:rgba(0,0,0,.5);transform:scale(1.05)}
+.onda{position:absolute;border-radius:50%;background:rgba(255,255,255,.45);transform:scale(0);animation:onda .6s ease-out forwards;pointer-events:none}
+@keyframes onda{to{transform:scale(1);opacity:0}}
+.pie{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-top:28px;color:var(--mut);font-size:14px;animation:baja .7s .5s both}
+kbd{font:inherit;font-size:12px;padding:2px 7px;border-radius:6px;border:1px solid var(--line);background:var(--panel)}
+dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);color:var(--ink);padding:0;width:min(600px,94vw);box-shadow:0 40px 80px -30px rgba(0,0,0,.7)}
+dialog[open]{animation:abre .3s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes abre{from{opacity:0;transform:translateY(16px) scale(.96)}}
+dialog::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(4px)}
+.dh{padding:20px 22px;border-bottom:1px solid var(--line);font-size:21px;font-weight:700}
+.lista{padding:12px 22px;max-height:56vh;overflow:auto}
+.fila{display:grid;grid-template-columns:40px minmax(0,1fr) minmax(0,1.6fr) 44px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.fila input{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-height:44px;width:100%}
+.fila input[type=color]{padding:3px;height:44px;cursor:pointer}
+.fila .p{grid-column:2/4}
+.fila button{padding:0}
+.da{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;padding:16px 22px;border-top:1px solid var(--line)}
+.da div{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:600px){.fila{grid-template-columns:40px minmax(0,1fr) 44px}.fila .u,.fila .p{grid-column:2/4}.ini{width:48px;height:48px;font-size:22px}.tecla{padding:14px}}
+@media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}.tecla{transform:none!important}}
+</style>
+</head>
+<body>
+<div class="fondo" aria-hidden="true"></div>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="saludo" id="saludo">Hola, Hamil</div>
+      <div class="hora" id="hora" aria-live="off">--:--</div>
+      <div class="fecha" id="fecha"></div>
+    </div>
+    <form class="busca" id="busca" role="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Buscar en Google…" aria-label="Buscar en Google" autocomplete="off">
+      <button class="pri" type="submit">Buscar</button>
+    </form>
+  </header>
+
+  <nav class="grid" id="grid" aria-label="Accesos directos"></nav>
+
+  <div class="pie">
+    <span><kbd>1</kbd>–<kbd>9</kbd> abren directo · <kbd>/</kbd> para buscar · “Web” abre la versión del navegador</span>
+    <button id="editar" type="button">Editar accesos</button>
+  </div>
+</div>
+
+<dialog id="dlg">
+  <div class="dh">Editar accesos</div>
+  <div class="lista" id="lista"></div>
+  <div class="da">
+    <div><button type="button" id="agregar">+ Agregar</button><button type="button" id="reset">Restaurar</button></div>
+    <div><button type="button" id="cancelar">Cancelar</button><button type="button" class="pri" id="guardar">Guardar</button></div>
+  </div>
+</dialog>
+
+<script>
+{
+const BASE=[
+  {n:"YouTube",u:"https://www.youtube.com",c:"#e62117"},
+  {n:"Gmail",u:"https://mail.google.com",c:"#c5221f"},
+  {n:"Campus UTN",u:"https://frsr.cvg.utn.edu.ar",c:"#0b5394"},
+  {n:"Claude",u:"https://claude.ai",a:"claude://",c:"#c15f3c"},
+  {n:"Discord",u:"https://discord.com/app",c:"#5865f2"},
+  {n:"GitHub",u:"https://github.com",c:"#2d333b"},
+  {n:"Antigravity",u:"https://antigravity.google",a:"antigravity://",c:"#1a73e8"}
+];
+const KEY="hamil-inicio-v2";
+const cargar=()=>{try{let d=JSON.parse(localStorage.getItem(KEY));if(!Array.isArray(d)){d=JSON.parse(localStorage.getItem("hamil-inicio-v1"));if(Array.isArray(d))d=d.map(x=>{const b=BASE.find(y=>y.n===x.n);return {...x,a:x.a||(b&&b.a)||""}})}if(Array.isArray(d)&&d.length)return d}catch(e){}return BASE.map(x=>({...x}))};
+const guardarLS=d=>{try{localStorage.setItem(KEY,JSON.stringify(d))}catch(e){}};
+let links=cargar();
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const ini=n=>{const p=n.trim().split(/\s+/);return p.length>1?(p[0][0]+p[1][0]).toUpperCase():n.slice(0,1).toUpperCase()+n.slice(1,2)};
+const grid=document.getElementById("grid");
+const pintar=()=>{grid.innerHTML=links.map((l,i)=>`<div class="celda" style="--i:${i}"><a class="tecla" href="${esc(l.a||l.u)}" ${l.a?"":`target="_blank" rel="noopener"`} style="--c:${esc(l.c)}">${i<9?`<span class="num">${i+1}</span>`:""}<span class="ini">${esc(ini(l.n))}</span><span class="nom">${esc(l.n)}${l.a?`<small>Abre el programa</small>`:""}</span></a>${l.a?`<a class="web" href="${esc(l.u)}" target="_blank" rel="noopener">Web</a>`:""}</div>`).join("")};
+pintar();
+
+const quieto=matchMedia("(prefers-reduced-motion: reduce)").matches;
+grid.addEventListener("pointermove",e=>{const t=e.target.closest(".tecla");if(!t||quieto)return;const r=t.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+  t.style.setProperty("--mx",x*100+"%");t.style.setProperty("--my",y*100+"%");t.style.setProperty("--ry",(x-.5)*14+"deg");t.style.setProperty("--rx",(.5-y)*14+"deg")});
+grid.addEventListener("pointerout",e=>{const t=e.target.closest(".tecla");if(t&&!t.contains(e.relatedTarget)){t.style.setProperty("--rx","0deg");t.style.setProperty("--ry","0deg")}});
+grid.addEventListener("pointerdown",e=>{const t=e.target.closest(".tecla");if(!t||quieto)return;const r=t.getBoundingClientRect(),s=Math.max(r.width,r.height)*2.2,o=document.createElement("span");
+  o.className="onda";o.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;t.appendChild(o);setTimeout(()=>o.remove(),650)});
+
+const DIAS=["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+const MESES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+const hora=document.getElementById("hora");let previo="";
+const reloj=()=>{const d=new Date(),h=d.getHours(),txt=String(h).padStart(2,"0")+String(d.getMinutes()).padStart(2,"0");
+  if(txt!==previo){const ds=[...txt];hora.innerHTML=ds.map((c,i)=>(i===2?`<span class="dp">:</span>`:"")+`<span class="dig">${previo[i]!==c?`<span>${c}</span>`:c}</span>`).join("");previo=txt}
+  document.getElementById("fecha").textContent=`${DIAS[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]}`;
+  document.getElementById("saludo").textContent=(h<6?"Buenas noches":h<13?"Buen día":h<20?"Buenas tardes":"Buenas noches")+", Hamil"};
+reloj();setInterval(reloj,5000);
+
+const q=document.getElementById("q");
+document.getElementById("busca").addEventListener("submit",e=>{e.preventDefault();const v=q.value.trim();if(!v)return;
+  const a=document.createElement("a");a.href="https://www.google.com/search?q="+encodeURIComponent(v);a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();q.value=""});
+
+document.addEventListener("keydown",e=>{if(e.target.closest("input,dialog")||e.ctrlKey||e.metaKey||e.altKey)return;
+  if(e.key==="/"){e.preventDefault();q.focus();return}
+  const n=+e.key;const c=grid.children[n-1];if(n>=1&&n<=9&&c){const t=c.querySelector(".tecla");t.animate?.([{transform:"scale(.94)"},{transform:"scale(1)"}],{duration:220});t.click()}});
+
+const dlg=document.getElementById("dlg"),lista=document.getElementById("lista");
+let borrador=[];
+const pintarLista=()=>{lista.innerHTML=borrador.map((l,i)=>`<div class="fila" data-i="${i}"><input type="color" value="${esc(l.c)}" data-k="c" aria-label="Color"><input value="${esc(l.n)}" data-k="n" aria-label="Nombre" placeholder="Nombre"><input class="u" value="${esc(l.u)}" data-k="u" aria-label="Dirección" placeholder="https://…"><button type="button" data-del aria-label="Quitar">✕</button><input class="p" value="${esc(l.a)}" data-k="a" aria-label="Programa (opcional)" placeholder="Programa, ej: claude:// (opcional)"></div>`).join("")||`<p style="color:var(--mut)">No hay accesos. Agregá uno.</p>`};
+lista.addEventListener("input",e=>{const f=e.target.closest(".fila");if(f&&e.target.dataset.k)borrador[+f.dataset.i][e.target.dataset.k]=e.target.value});
+lista.addEventListener("click",e=>{if(e.target.closest("[data-del]")){borrador.splice(+e.target.closest(".fila").dataset.i,1);pintarLista()}});
+document.getElementById("editar").addEventListener("click",()=>{borrador=links.map(x=>({...x}));pintarLista();dlg.showModal()});
+document.getElementById("agregar").addEventListener("click",()=>{borrador.push({n:"",u:"https://",a:"",c:"#ff5a36"});pintarLista();lista.querySelector(".fila:last-child input[data-k=n]")?.focus()});
+document.getElementById("reset").addEventListener("click",()=>{borrador=BASE.map(x=>({...x}));pintarLista()});
+document.getElementById("cancelar").addEventListener("click",()=>dlg.close());
+document.getElementById("guardar").addEventListener("click",()=>{
+  const okApp=a=>{a=(a||"").trim();return /^[a-z][a-z0-9+.-]*:\/\//i.test(a)&&!/^(https?|javascript|data|file):/i.test(a)?a:""};
+  links=borrador.filter(l=>l.n.trim()&&/^https?:\/\/.+/.test(l.u.trim())).map(l=>({n:l.n.trim(),u:l.u.trim(),a:okApp(l.a),c:/^#[0-9a-f]{6}$/i.test(l.c)?l.c:"#ff5a36"}));
+  guardarLS(links);pintar();dlg.close()});
+}
+</script>
+</body>
+</html>
